@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rudra Gallery — AWS S3</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Background -->
+  <div class="bg-mesh"></div>
+  <div class="bg-grid"></div>
+
+  <div class="wrapper">
+
+    <!-- ── NAV ── -->
+    <nav>
+      <div class="nav-logo">
+        <div class="logo-dot"></div>
+        Rudra Gallery
+      </div>
+      <div class="nav-right">
+        <span class="nav-tag">Cloud Computing · <span>AWS S3</span></span>
+      </div>
+    </nav>
+
+    <!-- ── HERO ── -->
+    <section class="hero">
+      <div class="hero-left">
+        <h1>
+          <span class="line-1">Store.</span>
+          <span class="line-2">Serve.</span>
+          <span class="line-3">Display.</span>
+        </h1>
+        <p class="hero-desc">
+          A cloud-native photo gallery powered by Amazon S3.
+          Every image stored as an S3 object, served via public bucket URLs.
+          Built for the Cloud Computing lab project.
+        </p>
+      </div>
+      <div class="hero-right">
+        <div class="stat-cards">
+          <div class="stat-card blue">
+            <div class="num" id="statPhotos">12</div>
+            <div class="lbl">Photos</div>
+          </div>
+          <div class="stat-card pink">
+            <div class="num" id="statSize">—</div>
+            <div class="lbl">Stored</div>
+          </div>
+          <div class="stat-card green">
+            <div class="num">11</div>
+            <div class="lbl">Nines</div>
+          </div>
+        </div>
+        <div class="s3-info">
+          Connected · my-photo-gallery-bucket-rudra · eu-north-1
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTROLS ── -->
+    <div class="controls">
+
+      <!-- Bucket pill -->
+      <div class="bucket-pill">
+        <span class="icon">🪣</span>
+        Bucket: <strong>my-photo-gallery-bucket-rudra</strong>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="filter-btn"        onclick="setFilter('nature', this)">Nature</button>
+        <button class="filter-btn"        onclick="setFilter('city', this)">City</button>
+        <button class="filter-btn"        onclick="setFilter('portrait', this)">Portrait</button>
+      </div>
+
+      <!-- Sort -->
+      <select class="sort-select" onchange="setSort(this.value)">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="name">Name A–Z</option>
+        <option value="size">Largest File</option>
+      </select>
+
+      <!-- View Toggle -->
+      <div class="view-btns">
+        <button class="view-btn active" title="Grid"    onclick="setView('grid', this)">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+            <rect x="1" y="1" width="6" height="6" rx="1.5"/>
+            <rect x="9" y="1" width="6" height="6" rx="1.5"/>
+            <rect x="1" y="9" width="6" height="6" rx="1.5"/>
+            <rect x="9" y="9" width="6" height="6" rx="1.5"/>
+          </svg>
+        </button>
+        <button class="view-btn" title="Masonry" onclick="setView('masonry', this)">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+            <rect x="1" y="1" width="6" height="9" rx="1.5"/>
+            <rect x="9" y="1" width="6" height="5" rx="1.5"/>
+            <rect x="1" y="12" width="6" height="3" rx="1.5"/>
+            <rect x="9" y="8" width="6" height="7" rx="1.5"/>
+          </svg>
+        </button>
+        <button class="view-btn" title="List"    onclick="setView('list', this)">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+            <rect x="1" y="2"  width="14" height="3" rx="1"/>
+            <rect x="1" y="7"  width="14" height="3" rx="1"/>
+            <rect x="1" y="12" width="14" height="3" rx="1"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── GALLERY ── -->
+    <section class="gallery-section">
+      <div class="gallery-grid" id="gallery"></div>
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🌌</div>
+        <h3>No photos found</h3>
+        <p>Try a different filter or upload images to your S3 bucket.</p>
+      </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+      <span>Rudra Gallery · <span>AWS S3</span> · eu-north-1</span>
+        <span>Built for Cloud Computing Lab · 2026</span>
+    </footer>
+
+  </div><!-- /wrapper -->
+
+  <!-- ── LIGHTBOX ── -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close-btn" onclick="closeLightbox({ target: null })">✕</button>
+    <div class="lb-container">
+      <div class="lb-img-wrap">
+        <img id="lbImg" src="" alt="">
+        <div class="lb-nav">
+          <button class="lb-arrow" onclick="lightboxNav(-1); event.stopPropagation()">‹</button>
+          <button class="lb-arrow" onclick="lightboxNav(1);  event.stopPropagation()">›</button>
+        </div>
+      </div>
+      <div class="lb-panel" id="lbPanel"></div>
+    </div>
+  </div>
+
+  <!-- ── TOAST ── -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
